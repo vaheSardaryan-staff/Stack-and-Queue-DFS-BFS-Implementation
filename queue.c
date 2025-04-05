@@ -4,79 +4,69 @@
 
 #define MAX_SIZE 100
 
-typedef struct Queue {
+typedef struct Stack{
     int arr[MAX_SIZE];
-    int front;
-    int rear;
-} Queue;
+    int top_index;
+}Stack;
 
-void init(Queue *qu) {
-    qu->front = -1;
-    qu->rear = -1;
+bool isEmpty(Stack *st){
+    if (st->top_index == -1){
+        return true;
+    }
+    return false;
 }
 
-bool isEmpty(Queue *qu) {
-    return qu->front == -1;
+bool isFull(Stack *st){
+    if(st->top_index == MAX_SIZE - 1){
+        return true;     
+    }
+    return false;
 }
 
-bool isFull(Queue *qu) {
-    return qu->rear == MAX_SIZE - 1;
+void init(Stack *st){
+    st->top_index = -1;
 }
 
-void enqueue(Queue *qu, int value) {
-    if (isFull(qu)) {
-        printf("Queue is full\n");
+void push(Stack *st, int value){
+    if (isFull(st)){
+        printf("Stack is full\n");
         return;
     }
-    if (isEmpty(qu)) {
-        qu->front = 0;
-    }
-    qu->arr[++qu->rear] = value;
+    st->arr[++st->top_index] = value;
 }
 
-void dequeue(Queue *qu) {
-    if (isEmpty(qu)) {
-        printf("Queue is empty\n");
+void pop(Stack *st){
+    if (isEmpty(st)){
+        printf("Stack is empty\n");
         return;
     }
-    qu->front++;
-    if (qu->front > qu->rear) {
-        init(qu);
-    }
+    st->top_index--; 
 }
 
-int front(Queue *qu) {
-    if (isEmpty(qu)) {
-        printf("Queue is empty\n");
+int top(Stack *st){
+    if (isEmpty(st)){
+        printf("Siktir");
         return -1;
-    }
-    return qu->arr[qu->front];
+    }   
+    return st->arr[st->top_index];
 }
 
-void printQueue(Queue *qu) {
-    if (isEmpty(qu)) {
-        printf("Queue is empty\n");
+void print(Stack *st){
+    if (isEmpty(st)){
+        printf("Stack is empty.");
         return;
     }
-    for (int i = qu->front; i <= qu->rear; i++) {
-        printf("%d ", qu->arr[i]);
+    for (int i = 0; i <= st->top_index; i++){
+        printf("%d ", st->arr[i]);
     }
-    printf("\n");
 }
 
-int main() {
-    Queue qu;
-    init(&qu);
-    
-    enqueue(&qu, 10);
-    enqueue(&qu, 20);
-    enqueue(&qu, 30);
-    printQueue(&qu);
-    
-    dequeue(&qu);
-    printQueue(&qu);
-    
-    printf("Front: %d\n", front(&qu));
-    
+int main(){
+    Stack st;
+    init(&st);
+
+    print(&st);
+    print(&st);
+
     return 0;
 }
